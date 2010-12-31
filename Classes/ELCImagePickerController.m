@@ -48,8 +48,11 @@
 		[workingDictionary release];	
 	}
 	
+	NSArray *finalArray = [NSArray arrayWithArray:returnArray];
+	[returnArray release];
+	
 	if([delegate respondsToSelector:@selector(elcImagePickerController:didFinishPickingMediaWithInfo:)]) {
-		[delegate performSelector:@selector(elcImagePickerController:didFinishPickingMediaWithInfo:) withObject:self withObject:[NSArray arrayWithArray:returnArray]];
+		[delegate performSelector:@selector(elcImagePickerController:didFinishPickingMediaWithInfo:) withObject:self withObject:finalArray];
 	}
 }
 
