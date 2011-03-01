@@ -14,7 +14,7 @@
 
 -(id)initImagePicker {
 
-	if(self = [super init]) {
+	if(self == [super init]) {
 		AlbumPickerController *albumController = [[AlbumPickerController alloc] initWithNibName:@"AlbumPickerController" bundle:[NSBundle mainBundle]];
 		[albumController setParent:self];
 		
@@ -42,7 +42,9 @@
 		[workingDictionary setObject:[asset valueForProperty:ALAssetPropertyType] forKey:@"UIImagePickerControllerMediaType"];
 		[workingDictionary setObject:[UIImage imageWithCGImage:[[asset defaultRepresentation] fullScreenImage]] forKey:@"UIImagePickerControllerOriginalImage"];
 		[workingDictionary setObject:[[asset valueForProperty:ALAssetPropertyURLs] valueForKey:[[[asset valueForProperty:ALAssetPropertyURLs] allKeys] objectAtIndex:0]] forKey:@"UIImagePickerControllerReferenceURL"];
-		
+        
+		[workingDictionary setObject:[asset valueForProperty:ALAssetPropertyDate] forKey:@"UIImagePickerControllerDate"];
+        NSLog(@"date of photo is: %@",[[asset valueForProperty:ALAssetPropertyDate] description]);
 		[returnArray addObject:workingDictionary];
 		
 		[workingDictionary release];	
@@ -109,7 +111,7 @@
 	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	void (^assetGroupEnumerator)(struct ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop) {
+	void (^assetGroupEnumerator)(ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop) {
 		if(group != nil) {
 			[assetGroups addObject:group];
 			NSLog(@"Number of assets in group %d", [group numberOfAssets]);
@@ -240,7 +242,7 @@
 	
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	void (^assetEnumerator)(struct ALAsset *, NSUInteger, BOOL *) = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
+	void (^assetEnumerator)(ALAsset *, NSUInteger, BOOL *) = ^(ALAsset *result, NSUInteger index, BOOL *stop) {
 		
 		if(result != nil) {
 			
@@ -368,7 +370,7 @@
 
 -(id)initWithAssets:(NSArray*)_assets reuseIdentifier:(NSString*)_identifier {
 
-	if(self = [super initWithStyle:UITableViewStylePlain reuseIdentifier:_identifier]) {
+	if(self == [super initWithStyle:UITableViewStylePlain reuseIdentifier:_identifier]) {
 	
 		assets = _assets;
 		[assets retain];
@@ -426,7 +428,7 @@
 
 -(id)initWithAsset:(ALAsset*)_asset {
 	
-	if (self = [super initWithFrame:CGRectMake(0, 0, 0, 0)]) {
+	if (self == [super initWithFrame:CGRectMake(0, 0, 0, 0)]) {
 		
 		asset = _asset;
 		[asset retain];
